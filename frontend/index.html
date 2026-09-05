@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="aurora" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProjectForge AI - Final Year Engineering Project Operating System</title>
+  
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="AI Project Architect + AI Mentor + Project Evaluator for final-year engineering students. Discover, design, build, and present industry-grade projects.">
+  <meta name="theme-color" content="#060913">
+
+  <!-- Google Fonts (Outfit, Plus Jakarta Sans, JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS 3.4 CDN with Forms plugin -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme]'],
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+              950: '#082f49',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#060913] text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-950 antialiased">
+
+  <!-- ==========================================================================
+       CINEMATIC DUAL-TONE LIGHT & DARK ENTRANCE INTRO
+       ========================================================================== -->
+  <div id="intro-overlay">
+    <!-- Ambient Dual-Tone Glow Blobs -->
+    <div class="intro-dark-glow"></div>
+    <div class="intro-light-glow"></div>
+    <div class="intro-lens-flare"></div>
+
+    <!-- Orbiting Concentric Rings (Crisp White + Neon Aurora) -->
+    <div class="intro-rings-white"></div>
+    <div class="intro-rings"></div>
+    <div class="intro-rings-2"></div>
+    
+    <div class="intro-center-hero text-center z-10 px-4">
+      <!-- Luxury Dual-Tone Emblem -->
+      <div class="intro-emblem-box mx-auto mb-6">
+        <div class="intro-emblem-inner">
+          <div class="intro-emblem-sheen"></div>
+          <i data-lucide="sparkles" class="w-12 h-12 text-white relative z-10 intro-sparkle-icon"></i>
+        </div>
+      </div>
+
+      <!-- Badge -->
+      <div class="intro-brand-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full backdrop-blur-md mb-4">
+        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+        <span class="text-[11px] font-mono font-bold tracking-wider text-white uppercase">Dual-Engine Operating System</span>
+      </div>
+
+      <h1 class="intro-brand-title font-heading font-black text-3xl sm:text-5xl text-white tracking-tight uppercase flex items-center justify-center gap-3">
+        <span>PROJECTFORGE</span>
+        <span class="px-2.5 py-0.5 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 text-slate-950 font-mono text-2xl sm:text-3xl font-extrabold shadow-[0_0_25px_rgba(56,189,248,0.5)]">AI</span>
+      </h1>
+      
+      <p class="intro-subtitle text-xs sm:text-sm font-medium tracking-wide mt-2.5 max-w-md mx-auto">
+        From Ambiguous Ideas to Defense-Ready Capstones
+      </p>
+
+      <!-- Dual Gradient Progress Bar -->
+      <div class="w-56 h-1.5 bg-slate-900/90 border border-white/20 rounded-full mx-auto mt-6 overflow-hidden p-[1px] shadow-inner">
+        <div id="intro-progress" class="w-0 h-full rounded-full bg-gradient-to-r from-white via-cyan-400 to-indigo-500 shadow-[0_0_15px_rgba(255,255,255,0.9)] transition-all duration-1000 ease-out"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Desktop & Tablet Sidebar -->
+  <aside id="app-sidebar" class="hidden fixed inset-y-0 left-0 w-[270px] z-50 transition-all duration-300"></aside>
+
+  <!-- Top App Header -->
+  <header id="app-header" class="hidden md:block fixed top-0 right-0 left-0 md:left-[270px] z-40 transition-all duration-300"></header>
+
+  <!-- Main View Router Container -->
+  <main id="app-main-content" class="flex-grow transition-all duration-300 min-h-screen">
+    <!-- Rendered dynamically by App.navigate() -->
+  </main>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm pointer-events-none"></div>
+
+  <!-- AI Project Idea Synthesizer Modal -->
+  <div id="idea-generator-modal" class="modal-backdrop" onclick="if(event.target===this) App.closeIdeaGeneratorModal()">
+    <div id="idea-generator-modal-content" class="modal-content-card p-6 sm:p-8 space-y-6 max-w-2xl">
+      <!-- Rendered dynamically by App.renderIdeaModal() -->
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/data/mockData.js"></script>
+  <script src="js/services/aiEngine.js"></script>
+  <script src="js/components/views.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Intro Animation Controller -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('intro-overlay');
+      const bar = document.getElementById('intro-progress');
+      if (bar) setTimeout(() => { bar.style.width = '100%'; }, 150);
+      if (overlay) {
+        setTimeout(() => {
+          overlay.classList.add('fade-out');
+          if (typeof confetti === 'function') {
+            confetti({ particleCount: 60, spread: 80, origin: { y: 0.35 } });
+          }
+        }, 1500);
+      }
+    });
+
+    App.replayIntro = function() {
+      const overlay = document.getElementById('intro-overlay');
+      const bar = document.getElementById('intro-progress');
+      if (!overlay || !bar) return;
+      bar.style.width = '0%';
+      overlay.classList.remove('fade-out');
+      setTimeout(() => { bar.style.width = '100%'; }, 150);
+      setTimeout(() => { 
+        overlay.classList.add('fade-out'); 
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 60, spread: 80, origin: { y: 0.35 } });
+        }
+      }, 1500);
+    };
+
+    App.setCreativeTheme = function(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
+      localStorage.setItem('pf_creative_theme', themeName);
+      App.showToast(`Switched theme to ${themeName.toUpperCase()}`, 'success');
+      
+      const auroraBtn = document.getElementById('theme-btn-aurora');
+      const cyberBtn = document.getElementById('theme-btn-cyberforge');
+      const lightBtn = document.getElementById('theme-btn-light');
+      
+      [auroraBtn, cyberBtn, lightBtn].forEach(b => {
+        if (b) {
+          b.className = "px-2.5 py-1 rounded-lg text-xs font-semibold border border-slate-700 text-slate-300 hover:text-white";
+        }
+      });
+
+      const activeBtn = document.getElementById(`theme-btn-${themeName}`);
+      if (activeBtn) {
+        activeBtn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30";
+      }
+
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 25, spread: 60, origin: { y: 0.9, x: 0.1 } });
+      }
+    };
+  </script>
+
+</body>
+</html>
